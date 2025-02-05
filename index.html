@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prijslijst - Gebroeders Poets</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .container {
+      max-width: 90%;
+      width: 800px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+    }
+    .logo {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+    }
+    .columns {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .column {
+      flex: 1;
+      min-width: 280px;
+      background: #ddd;
+      padding: 15px;
+      margin: 10px;
+      border-radius: 5px;
+    }
+    h2 {
+      background: black;
+      color: white;
+      padding: 10px;
+      margin: -15px -15px 10px -15px;
+      border-radius: 5px 5px 0 0;
+    }
+    .package, .price-item, .selected-packages-container {
+      background: #fff;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+      cursor: pointer;
+    }
+    .package:hover, .price-item:hover {
+      background: #e0e0e0;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      transform: scale(1.05);
+    }
+    .package.selected, .price-item.selected {
+      background: #d9534f;
+      color: white;
+    }
+    .package.selected .price, .price-item.selected .price {
+      color: #fff;
+    }
+    .selected-packages-container {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 5px;
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    #selected-packages-list {
+      margin: 10px 0;
+    }
+    #total-price {
+      font-size: 18px;
+      font-weight: bold;
+      color: #d9534f;
+    }
+    /* Styling voor de extra melding */
+    #extra-note {
+      font-style: italic;
+      color: #555;
+    }
+    /* Responsieve styling voor mobiele apparaten */
+    @media (max-width: 600px) {
+      .columns {
+        flex-direction: column;
+        align-items: center;
+      }
+      .column {
+        min-width: 100%;
+        margin: 10px 0;
+      }
+    }
+  </style>
+  <script>
+    function toggleSelection(element) {
+      element.classList.toggle("selected");
+      updateSelectedPackages();
+    }
+    
+    function updateSelectedPackages() {
+      const selectedItems = document.querySelectorAll('.package.selected, .price-item.selected');
+      let selectedText = "";
+      let totalPrice = 0;
+      let noteNeeded = false;
+      
+      selectedItems.forEach(item => {
+        const title = item.querySelector('h3').textContent;
+        selectedText += `<p>${title}</p>`;
+        let priceText = item.querySelector('.price').textContent.replace('€', '').replace(',', '.');
+        totalPrice += parseFloat(priceText);
+        
+        // Controleer of de geselecteerde optie "Dieptereiniging bekleding" of "Leer reiniging" is
+        if (title === "Dieptereiniging bekleding" || title === "Leer reiniging") {
+          noteNeeded = true;
+        }
+      });
+      
+      document.getElementById("selected-packages-list").innerHTML = selectedText || "<p>Geen selectie</p>";
+      document.getElementById("total-price").textContent = `Totaalprijs: €${totalPrice.toFixed(2)}`;
+      
+      if (noteNeeded) {
+        document.getElementById("extra-note").innerHTML = "<p>Houd er rekening mee dat de kosten €10 per stoel zijn.</p>";
+      } else {
+        document.getElementById("extra-note").innerHTML = "";
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <img src="https://res.cloudinary.com/dbsrtnquz/image/upload/v1738765525/gebroeders_poets_1.0.1_hvcdbz.png" alt="Gebroeders Poets Logo" class="logo">
+    <div class="columns">
+      <div class="column">
+        <h2>PAKKETTEN</h2>
+        <div class="package" onclick="toggleSelection(this)">
+          <h3>Basis Pakket</h3>
+          <p>Interieur + Exterieur + Stoomreiniging</p>
+          <p class="price">€95</p>
+        </div>
+        <div class="package" onclick="toggleSelection(this)">
+          <h3>Premium Pakket</h3>
+          <p>Interieur + Exterieur + Stoomreiniging + Detailing</p>
+          <p class="price">€110</p>
+        </div>
+        <div class="package" onclick="toggleSelection(this)">
+          <h3>Luxe Pakket</h3>
+          <p>Interieur + Exterieur + Stoomreiniging + Detailing + Dieptereiniging bekleding</p>
+          <p class="price">€130</p>
+        </div>
+      </div>
+      <div class="column">
+        <h2>BASIS PRIJZEN</h2>
+        <div class="price-item" onclick="toggleSelection(this)">
+          <h3>Interieur</h3>
+          <p class="price">€69,99</p>
+        </div>
+        <div class="price-item" onclick="toggleSelection(this)">
+          <h3>Exterieur</h3>
+          <p class="price">€39,99</p>
+        </div>
+        <div class="price-item" onclick="toggleSelection(this)">
+          <h3>Dieptereiniging bekleding</h3>
+          <p class="price">€10 (per stoel)</p>
+        </div>
+        <div class="price-item" onclick="toggleSelection(this)">
+          <h3>Leer reiniging</h3>
+          <p class="price">€10 (per stoel)</p>
+        </div>
+        <div class="price-item" onclick="toggleSelection(this)">
+          <h3>Velgen behandeling</h3>
+          <p class="price">€15</p>
+        </div>
+        <div class="price-item" onclick="toggleSelection(this)">
+          <h3>Stofzuigen</h3>
+          <p class="price">€20</p>
+        </div>
+        <div class="price-item" onclick="toggleSelection(this)">
+          <h3>Matten reiniging</h3>
+          <p class="price">€15</p>
+        </div>
+      </div>
+    </div>
+    <div class="selected-packages-container">
+      <h2>Samengesteld Pakket</h2>
+      <div id="selected-packages-list"><p>Geen selectie</p></div>
+      <p id="total-price">Totaalprijs: €0.00</p>
+      <p id="extra-note"></p>
+    </div>
+  </div>
+</body>
+</html>
