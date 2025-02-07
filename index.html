@@ -1,15 +1,40 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Prijslijst - Gebroeders Poets</title>
+  
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
+    /* Root Variables and Reset */
+    :root {
+      --bg-color: #121212;
+      --text-color: #ffffff;
+      --primary-color: #007bff;
+      --secondary-color: #00c6ff;
+      --overlay-color: rgba(0, 0, 0, 0.5);
+      --header-bg: rgba(18, 18, 18, 0.8);
+      --card-bg: #1a1a1a;
+    }
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
       text-align: center;
     }
     .container {
@@ -44,8 +69,9 @@
       background: black;
       color: white;
       padding: 10px;
-      margin: -15px 0 10px 0;
+      margin: -15px auto 10px auto;  /* Centered using auto for left/right */
       border-radius: 5px 5px 0 0;
+      display: inline-block;
     }
     .package, .price-item, .selected-packages-container {
       background: #fff;
@@ -55,6 +81,10 @@
       box-shadow: 0 0 5px rgba(0,0,0,0.1);
       transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
       cursor: pointer;
+    }
+    /* Set text inside package and price items to black */
+    .package, .price-item {
+      color: black;
     }
     .package:hover, .price-item:hover {
       background: #e0e0e0;
@@ -68,13 +98,15 @@
     .package.selected .price, .price-item.selected .price {
       color: #fff;
     }
+    /* Updated Selected Packages Container: text now appears in black and not bold */
     .selected-packages-container {
       background: #f8f9fa;
       padding: 15px;
       border-radius: 5px;
       text-align: center;
       margin-top: 20px;
-      font-weight: bold;
+      font-weight: normal;
+      color: black;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
     #selected-packages-list {
@@ -85,23 +117,30 @@
       font-weight: bold;
       color: #d9534f;
     }
-    /* Styling voor de extra melding */
+    /* Styling for extra note */
     #extra-note {
       font-style: italic;
       color: #555;
     }
-    /* Responsieve styling voor mobiele apparaten */
+    /* Instruction styling (below the selected packages container) */
+    #instruction {
+      margin-top: 10px;
+      font-size: 16px;
+      color: black;
+    }
+    /* Responsive styling for mobile devices */
     @media (max-width: 600px) {
       .columns {
         flex-direction: column;
         align-items: center;
       }
       .column {
-        min-width: 100%;
-        margin: 10px 0;
+        width: 100%;
+        margin: 10px auto;
       }
     }
   </style>
+  
   <script>
     function toggleSelection(element) {
       element.classList.toggle("selected");
@@ -120,7 +159,7 @@
         let priceText = item.querySelector('.price').textContent.replace('€', '').replace(',', '.');
         totalPrice += parseFloat(priceText);
         
-        // Controleer of de geselecteerde optie "Dieptereiniging bekleding" of "Leer reiniging" is
+        // Check if selected option is "Dieptereiniging bekleding" or "Leer reiniging"
         if (title === "Dieptereiniging bekleding" || title === "Leer reiniging") {
           noteNeeded = true;
         }
@@ -139,7 +178,7 @@
 </head>
 <body>
   <div class="container">
-    <img src="https://res.cloudinary.com/dbsrtnquz/image/upload/v1738785076/gebroeders_poets_1.0.1_1_s923bk.png" alt=" Gebroeders Poets Logo" class="logo">
+    <img src="https://res.cloudinary.com/dbsrtnquz/image/upload/v1738785076/gebroeders_poets_1.0.1_1_s923bk.png" alt="Gebroeders Poets Logo" class="logo">
     <div class="columns">
       <div class="column">
         <h2>PAKKETTEN</h2>
@@ -196,6 +235,8 @@
       <div id="selected-packages-list"><p>Geen selectie</p></div>
       <p id="total-price">Totaalprijs: €0.00</p>
       <p id="extra-note"></p>
+      <!-- Instruction in Dutch -->
+      <p id="instruction">Maak een screenshot van je 'Samengesteld Pakket' en stuur het naar ons via DM of whats app.</p>
     </div>
   </div>
 </body>
